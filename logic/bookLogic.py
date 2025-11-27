@@ -1,6 +1,8 @@
 from classes import Book
 import csv
 
+FILE_PATH = "data/biblioLibros.csv"
+
 
 def load_books(file_path):
 
@@ -28,6 +30,24 @@ def load_books(file_path):
 
 
 def list_books():
-    books = load_books("data/biblioLibros.csv")
+    books = load_books(FILE_PATH)
+    print(f"\n=============Listado de libros===================")
     for book in books:
         print(book)
+    print("================================\n")
+
+def validate_data(data, instance):
+    while not isinstance(data, instance):
+        data = input(f"Tipo de dato inválido. Ingrese un valor de tipo {instance.__name__}: ")
+
+    return data
+
+def add_book():
+    title = input("Ingrese el título del libro: ")
+    author = input("Ingrese el autor del libro: ")
+    year = validate_data(input("Ingrese el año de publicación: "), int)
+    page_num = validate_data(input("Ingrese el número de páginas: "), int)
+    gender = input("Ingrese el género del libro: ")
+    editorial = input("Ingrese la editorial del libro: ")
+    state = input("Ingrese el estado del libro (Nuevo/Usado): ")
+    available = input("¿El libro está disponible? (True/False): ")
