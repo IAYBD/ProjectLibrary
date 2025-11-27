@@ -12,5 +12,10 @@ class Book:
         self.state = state
         self.available = available
 
+    def __eq__(self, value):
+        if not isinstance(value, Book):
+            return False
+        return self.id_book == value.id_book
+
     def __str__(self):
         return f"ID: {self.id_book} | Title: {self.title} | Author: {self.author} | Year: {self.year} | Pages: {self.page_num} | Gender: {self.gender} | Editorial: {self.editorial} | State: {self.state} | Available: {self.available}"
