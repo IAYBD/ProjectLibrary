@@ -1,8 +1,11 @@
 class Book:
 
+    _last_id = 1
+
     def __init__(self, id_book, title, author, year, page_num, gender, editorial, state, available):
 
-        self.id_book = id_book
+        self.id_book = id_book if id_book else Book._last_id
+        Book._last_id += 1
         self.title = title
         self.author = author
         self.year = year
