@@ -1,6 +1,7 @@
 from classes import *
-from logic import load_books, list_books
+from logic import load_books, list_books, add_book, getMaxId, remove_book
 
+r = Repo(1, 1, 1)
 
 def menu():
     print("================================")
@@ -65,9 +66,10 @@ while not finished:
 
                     match book_option:
                         case "1":
-                            print()
+                            add_book("data/biblioLibros.csv")
                         case "2":
-                            print()
+                            book_id = int(input("Ingrese el ID del libro a eliminar: "))
+                            remove_book(book_id, "data/biblioLibros.csv")
                         case "3":
                             print()
                         case "4":
