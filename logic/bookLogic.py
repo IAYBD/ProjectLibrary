@@ -1,4 +1,5 @@
 from classes import Book
+from .normalise import normalize
 import csv
 
 FILE_PATH = "data/biblioLibros.csv"
@@ -37,6 +38,19 @@ def getMaxId(file_path):
             if current_id > max_id:
                 max_id = current_id
         return max_id
+
+def locate_book(book_name):
+    books = load_books(FILE_PATH)
+    for book in books:
+        if normalize(book.title) == normalize(book_name):
+            return book
+    return None
+
+def rewrite(fields, data):
+    with open(FILE_PATH, "w", encoding="utf-8", newline="") as file:
+        writer = csv.writer(file, delimiter=';')
+        writer.writerow(fields)
+        writer.writerows([vars(book).values() for book in data])
 
 def list_books():
     books = load_books(FILE_PATH)
@@ -95,11 +109,48 @@ def add_book(file_path):
             b.available
         ])
 
-def remove_book(book_id, file_path):
+def remove_book(book_name, file_path):
     books = load_books(file_path)
-    books = [b for b in books if int(b.id_book) != book_id]
-    print(books)
+    book_for_remove = locate_book(book_name)
+    books.remove(book_for_remove)
     with open(file_path, "w", encoding="utf-8", newline="") as file:
         writer = csv.writer(file, delimiter=';')
         writer.writerow(['id_book', 'title', 'author', 'year', 'page_num', 'gender', 'editorial', 'state', 'available'])
         writer.writerows([vars(book).values() for book in books])
+
+def modify_book(book_name):
+
+    books = load_books(FILE_PATH)
+    book = locate_book(book_name)
+
+    if not book:
+        print("Libro no encontrado.")
+        return
+    
+    title = input("Ingrese el título del libro: ")
+    author = input("Ingrese el autor del libro: ")
+    year = validate_data(input("Ingrese el año de publicación: "), int)
+    page_num = validate_data(input("Ingrese el número de páginas: "), int)
+    gender = input("Ingrese el género del libro: ")
+    editorial = input("Ingrese la editorial del libro: ")
+    state = input("Ingrese el estado del libro (Nuevo/Usado): ")
+    available = input("¿El libro está disponible? (True/False): ")
+
+    b = Book(
+        id_book=book.id_book,
+        title=title,
+        author=author,
+        year=year,
+        page_num=page_num,
+        gender=gender,
+        editorial=editorial,
+        state=state,
+        available=available
+    )
+
+    index = books.index(book)
+    books[index] = b
+
+    rewrite(['id_book', 'title', 'author', 'year', 'page_num', 'gender', 'editorial', 'state', 'available'], books)
+
+    return f"Libro modificado: {b}"
