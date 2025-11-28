@@ -28,6 +28,15 @@ def load_books(file_path):
 
     return data
 
+def getMaxId(file_path):
+    with open(file_path, "rt", encoding="utf-8") as file:
+        reader = csv.DictReader(file, delimiter=';')
+        max_id = 0
+        for line in reader:
+            current_id = int(line['id_book'])
+            if current_id > max_id:
+                max_id = current_id
+        return max_id
 
 def list_books():
     books = load_books(FILE_PATH)
@@ -37,12 +46,20 @@ def list_books():
     print("================================\n")
 
 def validate_data(data, instance):
-    while not isinstance(data, instance):
-        data = input(f"Tipo de dato inválido. Ingrese un valor de tipo {instance.__name__}: ")
+
+    try:
+        data = instance(data)
+    except ValueError:
+        while not isinstance(data, instance):
+            data = input(f"Tipo de dato inválido. Ingrese un valor de tipo {instance.__name__}: ")
+            try:
+                data = instance(data)
+            except ValueError:
+                continue
 
     return data
 
-def add_book():
+def add_book(file_path):
     title = input("Ingrese el título del libro: ")
     author = input("Ingrese el autor del libro: ")
     year = validate_data(input("Ingrese el año de publicación: "), int)
@@ -51,3 +68,38 @@ def add_book():
     editorial = input("Ingrese la editorial del libro: ")
     state = input("Ingrese el estado del libro (Nuevo/Usado): ")
     available = input("¿El libro está disponible? (True/False): ")
+
+    b = Book(
+        id_book=getMaxId(file_path) + 1,
+        title=title,
+        author=author,
+        year=year,
+        page_num=page_num,
+        gender=gender,
+        editorial=editorial,
+        state=state,
+        available=available
+    )
+
+    with open(file_path, "a", encoding="utf-8", newline='\n') as file:
+        writer = csv.writer(file, delimiter=';')
+        writer.writerow([
+            b.id_book,
+            b.title,
+            b.author,
+            b.year,
+            b.page_num,
+            b.gender,
+            b.editorial,
+            b.state,
+            b.available
+        ])
+
+def remove_book(book_id, file_path):
+    books = load_books(file_path)
+    books = [b for b in books if int(b.id_book) != book_id]
+    print(books)
+    with open(file_path, "w", encoding="utf-8", newline="") as file:
+        writer = csv.writer(file, delimiter=';')
+        writer.writerow(['id_book', 'title', 'author', 'year', 'page_num', 'gender', 'editorial', 'state', 'available'])
+        writer.writerows([vars(book).values() for book in books])
