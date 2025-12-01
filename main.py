@@ -1,4 +1,4 @@
-from modules import manage_books
+from modules import manage_books, manage_users
 
 def menu():
     print("================================")
@@ -23,7 +23,7 @@ while not finished:
             case "1":
                 manage_books()
             case "2":
-                print()
+                manage_users()
             case "3":
                 print()
             case "4":
