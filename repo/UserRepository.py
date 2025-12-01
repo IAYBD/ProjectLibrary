@@ -69,14 +69,28 @@ class UserRepository:
 
     @classmethod
     def add_user(cls, user):
-        with open(cls.FILE_PATH, "a", encoding="utf-8", newline="\n") as file:
-            writer = csv.writer(file, delimiter=';')
-            writer.writerow([user.id_user, user.name, user.surname, user.dni, user.email, user.phone, user.address, user.age])
+        try:
+            with open(cls.FILE_PATH, "a", encoding="utf-8", newline="\n") as file:
+                writer = csv.writer(file, delimiter=';')
+                writer.writerow([user.id_user, user.name, user.surname, user.dni, user.email, user.phone, user.address, user.age])
+        except Exception as e:
+            print(f"Error al añadir el usuario: {e}")
+            return False
+        
+        return True
 
     @classmethod
     def rewrite(cls, data):
-        with open(cls.FILE_PATH, "w", encoding="utf-8", newline="") as file:
-            writer = csv.writer(file, delimiter=';')
-            writer.writerow(cls.FIELDS)
-            writer.writerows([vars(book).values() for book in data])
+
+        try:
+
+            with open(cls.FILE_PATH, "w", encoding="utf-8", newline="") as file:
+                writer = csv.writer(file, delimiter=';')
+                writer.writerow(cls.FIELDS)
+                writer.writerows([vars(user).values() for user in data])
+        except Exception as e:
+            print(f"Error al reescribir el fichero: {e}")
+            return False
+
+        return True
 

@@ -21,15 +21,24 @@ def manage_users():
 
         match user_option:
             case "1":
-                add_user()
-                print("Usuario añadido correctamente.")
+                success = add_user()
+                if success:
+                    print("Usuario añadido correctamente.")
+                else:
+                    print("No se pudo añadir el usuario.")
             case "2":
                 user_id = int(input("Ingrese el ID del usuario a eliminar: "))
-                delete_user(user_id)
-                print("Usuario eliminado correctamente.")
+                success = delete_user(user_id)
+                if success:
+                    print("Usuario eliminado correctamente.")
+                else:
+                    print("No se pudo eliminar el usuario.")
             case "3":
-                edit_user()
-                print("Usuario modificado correctamente.")
+                success = edit_user()
+                if success:
+                    print("Usuario modificado correctamente.")
+                else:
+                    print("No se pudo modificar el usuario.")
             case "4":
                 print("\n=============Listado de usuarios===================")
                 users = load_users()

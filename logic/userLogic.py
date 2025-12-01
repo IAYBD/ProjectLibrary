@@ -7,7 +7,7 @@ dni_validations = r"^\d{8}[A-Za-z]$"
 email_validations = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
 
 def load_users():
-    return UserRepository().load_data()
+    return UserRepository.load_data()
 
 
 def validate_regex(value, pattern):
@@ -53,7 +53,7 @@ def add_user():
         age=age
     )
 
-    UserRepository.add_user(u)
+    return UserRepository.add_user(u)
 
 def edit_user():
 
@@ -85,8 +85,6 @@ def edit_user():
         print("No se ha encontrado ningún usuario con ese ID.")
         return
 
-    print(finded_user)
-
     index = users.index(finded_user)
     users[index] = u
 
@@ -98,4 +96,6 @@ def delete_user(user_id):
     users = load_users()
     users = list(filter(lambda u: u.id_user != user_id, users))
 
-    UserRepository.rewrite(users)
+    success = UserRepository.rewrite(users)
+
+    return success
