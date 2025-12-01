@@ -85,6 +85,8 @@ def edit_user():
         print("No se ha encontrado ningún usuario con ese ID.")
         return
 
+    print(finded_user)
+
     index = users.index(finded_user)
     users[index] = u
 

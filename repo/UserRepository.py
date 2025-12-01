@@ -15,16 +15,7 @@ class UserRepository:
             reader = csv.DictReader(file, delimiter=';')
             
             for line in reader:
-                b = User(
-                    id_user=int(line['id_user']),
-                    name=line['name'],
-                    surname=line['surname'],
-                    dni=line['dni'],
-                    email=line['email'],
-                    phone=line['phone'],
-                    address=line['address'],
-                    age=line['age']
-                )
+                b = User.from_dict(line)
 
                 data.append(b)
 

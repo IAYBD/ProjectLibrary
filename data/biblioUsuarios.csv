@@ -2,3 +2,7 @@ id_user;name;surname;dni;email;phone;address;age
 1;Paula;Flores;98765432X;paula.flor@gmail.fr;124578963;Calle Rosaleda 2B;14
 2;Laura;Gonzalez;12345678A;laura.gonzalez@example.com;123456789;123 Main St;30
 43;Rafa;Navarro;12345678Z;tuhmuelas24@ilerna.com;123456789;Calle Pekín 3;19
+44;Juan;Pérez;12345678C;juanilloElPro@gmail.com;123456789;Calle Parguela;18
+45;Paco;Ramírez;12345678A;pacram28@gmail.com;123456789;Calle R;28
+46;Alba;García;12345678I;algar@company.es;741852963;Calle amanecer;21
+47;Cristina;García;12345678I;crigar@gmail.es;741852963;Calle atardecer 13;22
