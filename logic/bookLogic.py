@@ -1,59 +1,20 @@
 from classes import Book
+from repo import BookRepository
 from .normalise import normalize
 import csv
 
 FILE_PATH = "data/biblioLibros.csv"
 
 
-def load_books(file_path):
+def load_books():
+    return BookRepository.load_data()
 
-    data = []
+def getMaxId():
+    return BookRepository.get_max_id()
 
-    with open(file_path, "rt", encoding="utf-8") as file:
-        reader = csv.DictReader(file, delimiter=';')
-        
-        for line in reader:
-            b = Book(
-                id_book=line['id_book'],
-                title=line['title'],
-                author=line['author'],
-                year=int(line['year']),
-                page_num=int(line['page_num']),
-                gender=line['gender'],
-                editorial=line['editorial'],
-                state=line['state'],
-                available=line['available']
-            )
-
-            data.append(b)
-
-    return data
-
-def getMaxId(file_path):
-    with open(file_path, "rt", encoding="utf-8") as file:
-        reader = csv.DictReader(file, delimiter=';')
-        max_id = 0
-        for line in reader:
-            current_id = int(line['id_book'])
-            if current_id > max_id:
-                max_id = current_id
-        return max_id
-
-def locate_book(book_name):
-    books = load_books(FILE_PATH)
-    for book in books:
-        if normalize(book.title) == normalize(book_name):
-            return book
-    return None
-
-def rewrite(fields, data):
-    with open(FILE_PATH, "w", encoding="utf-8", newline="") as file:
-        writer = csv.writer(file, delimiter=';')
-        writer.writerow(fields)
-        writer.writerows([vars(book).values() for book in data])
 
 def list_books():
-    books = load_books(FILE_PATH)
+    books = load_books()
     print(f"\n=============Listado de libros===================")
     for book in books:
         print(book)
@@ -73,7 +34,7 @@ def validate_data(data, instance):
 
     return data
 
-def add_book(file_path):
+def add_book():
     title = input("Ingrese el título del libro: ")
     author = input("Ingrese el autor del libro: ")
     year = validate_data(input("Ingrese el año de publicación: "), int)
@@ -84,7 +45,7 @@ def add_book(file_path):
     available = input("¿El libro está disponible? (True/False): ")
 
     b = Book(
-        id_book=getMaxId(file_path) + 1,
+        id_book=getMaxId() + 1,
         title=title,
         author=author,
         year=year,
@@ -95,33 +56,21 @@ def add_book(file_path):
         available=available
     )
 
-    with open(file_path, "a", encoding="utf-8", newline='\n') as file:
-        writer = csv.writer(file, delimiter=';')
-        writer.writerow([
-            b.id_book,
-            b.title,
-            b.author,
-            b.year,
-            b.page_num,
-            b.gender,
-            b.editorial,
-            b.state,
-            b.available
-        ])
+    success = BookRepository.add_book(b)
 
-def remove_book(book_name, file_path):
-    books = load_books(file_path)
-    book_for_remove = locate_book(book_name)
+    return success
+
+def remove_book(book_id):
+    books = load_books()
+    book_for_remove = BookRepository.find_a_book(book_id)
     books.remove(book_for_remove)
-    with open(file_path, "w", encoding="utf-8", newline="") as file:
-        writer = csv.writer(file, delimiter=';')
-        writer.writerow(['id_book', 'title', 'author', 'year', 'page_num', 'gender', 'editorial', 'state', 'available'])
-        writer.writerows([vars(book).values() for book in books])
+    
+    BookRepository.rewrite(books)
 
-def modify_book(book_name):
+def modify_book(book_id):
 
-    books = load_books(FILE_PATH)
-    book = locate_book(book_name)
+    books = load_books()
+    book = BookRepository.find_a_book(book_id)
 
     if not book:
         print("Libro no encontrado.")
@@ -151,6 +100,6 @@ def modify_book(book_name):
     index = books.index(book)
     books[index] = b
 
-    rewrite(['id_book', 'title', 'author', 'year', 'page_num', 'gender', 'editorial', 'state', 'available'], books)
+    BookRepository.rewrite(books)
 
     return f"Libro modificado: {b}"

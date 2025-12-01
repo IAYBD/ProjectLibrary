@@ -20,14 +20,26 @@ def manage_books():
 
         match book_option:
             case "1":
-                add_book("data/biblioLibros.csv")
+                success = add_book()
+
+                if success:
+                    print("Libro añadido correctamente.")
+
             case "2":
-                book_id = int(input("Ingrese el ID del libro a eliminar: "))
-                remove_book(book_id, "data/biblioLibros.csv")
+                book_id = ""
+                while not isinstance(book_id, int):
+                    try:
+                        book_id = int(input("Ingrese el ID del libro a eliminar: "))
+                        
+                    except ValueError:
+                       continue
+                remove_book(book_id)
+                    
             case "3":
-                book_name = input("Ingrese el nombre del libro a modificar: ")
-                modified_book = modify_book(book_name)
+                book_id = input("Ingrese el ID del libro a modificar: ")
+                modified_book = modify_book(int(book_id))
                 print(modified_book)
+                
             case "4":
                 list_books()
             case "5":
