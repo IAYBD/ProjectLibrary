@@ -22,5 +22,18 @@ class User:
         return f"ID: {self.id_user} | Name: {self.name} | Surname: {self.surname} | DNI: {self.dni} | Email: {self.email} | Phone: {self.phone} | Address: {self.address} | Age: {self.age}"
     
     @classmethod
+    def to_dict(cls, user):
+        return {
+            'id_user': user.id_user,
+            'name': user.name,
+            'surname': user.surname ,
+            'dni': user.dni ,
+            'email': user.email ,
+            'phone': user.phone ,
+            'address': user.address ,
+            'age': user.age
+        }
+
+    @classmethod
     def from_dict(cls, data_dict):
         return cls(**data_dict)

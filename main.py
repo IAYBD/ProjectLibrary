@@ -1,9 +1,10 @@
 from modules import manage_books, manage_users
-from logic import available_books
+from logic.loanLogic import *
 
 def menu():
     print("================================")
     print("Bienvenido al sistema de gestión de la biblioteca")
+    print("Para salir del programa, presione 6 ó Ctrl+C")
     print("================================")
     print("1. Gestión de Libros")
     print("2. Gestión de Usuarios")
@@ -26,10 +27,7 @@ while not finished:
             case "2":
                 manage_users()
             case "3":
-                free_books = available_books()
-
-                for b in free_books:
-                    print(b)
+                register_loan()
 
             case "4":
                 print()

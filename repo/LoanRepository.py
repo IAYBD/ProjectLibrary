@@ -25,6 +25,19 @@ class LoanRepository:
             print("Archivo no encontrado.")
 
     @classmethod
+    def get_max_id(cls):
+
+        with open(cls.FILE_PATH, "rt", encoding="utf-8") as file:
+            reader = csv.DictReader(file, delimiter=';')
+
+            data = []
+
+            for line in reader:
+                data.append(int(line['loan_id']))
+
+        return max(data) if data else 0
+
+    @classmethod
     def register_loan(cls, loan):
 
         with open(cls.FILE_PATH, "a", encoding="utf-8", newline='\n') as file:
