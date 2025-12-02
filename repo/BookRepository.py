@@ -79,3 +79,19 @@ class BookRepository:
             writer = csv.writer(file, delimiter=';')
             writer.writerow(cls.FIELDS)
             writer.writerows([Book.to_dict(b).values() for b in data])
+
+    
+    @classmethod
+    def load_free_books(cls):
+        data = []
+
+        with open(cls.FILE_PATH, "rt", encoding="utf-8") as file:
+            reader = csv.DictReader(file, delimiter=';')
+            
+            for line in reader:
+                isAvailable = line['available'].strip().lower() == "true"
+                if isAvailable:
+                    b = Book.from_dict(line)
+                    data.append(b)
+
+        return data

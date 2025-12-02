@@ -1,4 +1,5 @@
 from modules import manage_books, manage_users
+from logic import available_books
 
 def menu():
     print("================================")
@@ -25,7 +26,11 @@ while not finished:
             case "2":
                 manage_users()
             case "3":
-                print()
+                free_books = available_books()
+
+                for b in free_books:
+                    print(b)
+
             case "4":
                 print()
             case "5":
