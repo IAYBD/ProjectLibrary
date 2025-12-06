@@ -29,6 +29,13 @@ def load_loans():
     for l in loans:
         print(l)
 
+def load_unfinished_loans():
+    loans = LoanRepository.load_unfinished_loans()
+
+    print("¿Qué préstamo quiere finalizar?\n")
+
+    for l in loans:
+        print(l)
 
 def register_loan():
     books = BookRepository.load_free_books()
@@ -82,3 +89,44 @@ def register_loan():
     all_books[index] = book
     
     BookRepository.rewrite(all_books)
+
+def register_devolutions():
+    loans = LoanRepository.load_unfinished_loans()
+
+    print("¿Qué préstamo quiere finalizar?\n")
+
+    for l in loans:
+        print(l)
+
+    loan_option = askInteger("Ingrese el ID del préstamo que desea finalizar: ")
+
+    if not idInList(loan_option, list=loans, field="loan_id"):
+        print("El ID del préstamo no es válido. Abortando operación.")
+        return
+
+    loan = next((l for l in loans if l.loan_id == loan_option), None)
+
+    loan.returning_date = date.today()
+
+    all_loans = LoanRepository.load_data()
+
+    index = all_loans.index(loan)
+    all_loans[index] = loan
+
+    LoanRepository.rewrite(all_loans)
+
+    book = BookRepository.find_a_book(loan.book_id)
+
+    if not book:
+        print("No se ha encontrado el libro asociado al préstamo. Abortando operación.")
+        return
+
+    all_books = BookRepository.load_data()
+
+    index = all_books.index(book)
+    book.available = True
+    all_books[index] = book
+    
+    BookRepository.rewrite(all_books)
+
+    print("Préstamo finalizado. Gracias por devolver el libro.")

@@ -25,6 +25,25 @@ class LoanRepository:
             print("Archivo no encontrado.")
 
     @classmethod
+    def load_unfinished_loans(cls):
+
+        try:
+            data = []
+
+            with open(cls.FILE_PATH, "rt", encoding="utf-8") as file:
+                reader = csv.DictReader(file, delimiter=';')
+
+                for line in reader:
+                    if line['returning_date'] == "None":
+                        loan = Loan.from_dict(line)
+                        data.append(loan)
+
+            return data
+        
+        except FileNotFoundError:
+            print("Archivo no encontrado.")
+
+    @classmethod
     def get_max_id(cls):
 
         with open(cls.FILE_PATH, "rt", encoding="utf-8") as file:
@@ -52,3 +71,10 @@ class LoanRepository:
             })
 
         return True
+    
+    @classmethod
+    def rewrite(cls, data):
+        with open(cls.FILE_PATH, "w", encoding="utf-8", newline="\n") as file:
+            writer = csv.writer(file, delimiter=';')
+            writer.writerow(cls.FIELDS)
+            writer.writerows([Loan.to_dict(l).values() for l in data])

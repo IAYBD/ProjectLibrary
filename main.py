@@ -28,11 +28,10 @@ while not finished:
                 manage_users()
             case "3":
                 register_loan()
-
             case "4":
-                print()
+                register_devolutions()
             case "5":
-                print()
+                load_loans()
             case "6":
                 print("Saliendo del sistema...")
                 finished = True
