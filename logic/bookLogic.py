@@ -34,6 +34,26 @@ def validate_data(data, instance):
 
     return data
 
+def assign_specific_values(message, value1, value2):
+    option = ""
+
+    while not isinstance(option, int):
+        try:
+            option = int(input(message))
+
+        except ValueError:
+            continue
+
+    match option:
+
+        case 1:
+            option = value1
+
+        case 2: 
+            option = value2
+
+    return option
+
 def add_book():
     title = input("Ingrese el título del libro: ")
     author = input("Ingrese el autor del libro: ")
@@ -41,9 +61,9 @@ def add_book():
     page_num = validate_data(input("Ingrese el número de páginas: "), int)
     gender = input("Ingrese el género del libro: ")
     editorial = input("Ingrese la editorial del libro: ")
-    state = input("Ingrese el estado del libro (Nuevo/Usado): ")
-    available = input("¿El libro está disponible? (True/False): ")
-
+    state = assign_specific_values("Ingrese el estado del libro (1 para Nuevo y 2 para Usado): ", "Nuevo", "Usado")
+    available = assign_specific_values("¿El libro está disponible? (1 para verdadero y 2 para falso): ", True, False)
+    
     b = Book(
         id_book=getMaxId() + 1,
         title=title,
