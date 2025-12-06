@@ -3,6 +3,7 @@ from repo import LoanRepository, BookRepository, UserRepository
 from datetime import date, timedelta
 
 def askInteger(message):
+    """Método que obliga al usuario a introducir un número entero"""
     option = ""
 
     while not isinstance(option, int):
@@ -15,7 +16,7 @@ def askInteger(message):
 
 
 def idInList(id, list, field):
-
+    """Método que recorre una lista para averiguar si contiene un determinado ID"""
     for item in list:
         item_class = type(item)
         if item_class.to_dict(item)[field] == id:
@@ -24,12 +25,14 @@ def idInList(id, list, field):
 
 
 def load_loans():
+    """Método que carga los préstamos y los lista"""
     loans = LoanRepository.load_data()
 
     for l in loans:
         print(l)
 
 def load_unfinished_loans():
+    """Método que carga los préstamos vigentes y los lista"""
     loans = LoanRepository.load_unfinished_loans()
 
     print("¿Qué préstamo quiere finalizar?\n")
@@ -38,6 +41,7 @@ def load_unfinished_loans():
         print(l)
 
 def register_loan():
+    """Método para registrar un préstamo"""
     books = BookRepository.load_free_books()
     users = UserRepository.load_data()
 
@@ -91,6 +95,7 @@ def register_loan():
     BookRepository.rewrite(all_books)
 
 def register_devolutions():
+    """Método para registrar una devolución"""
     loans = LoanRepository.load_unfinished_loans()
 
     print("¿Qué préstamo quiere finalizar?\n")

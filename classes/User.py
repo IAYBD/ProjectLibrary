@@ -1,5 +1,5 @@
 class User:
-
+    """Clase Usuario"""
     def __init__(self, id_user, name, surname, dni, email, phone, address, age):
 
         self.id_user = int(id_user)
@@ -23,6 +23,7 @@ class User:
     
     @classmethod
     def to_dict(cls, user):
+        """Método para convertir un objeto en diccionario"""
         return {
             'id_user': user.id_user,
             'name': user.name,
@@ -36,4 +37,5 @@ class User:
 
     @classmethod
     def from_dict(cls, data_dict):
+        """Método para transformar un diccionario en un objeto"""
         return cls(**data_dict)

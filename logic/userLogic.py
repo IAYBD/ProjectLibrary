@@ -2,15 +2,19 @@ from classes import User
 from repo import UserRepository
 import re
 
+# Expresiones regulares
+
 phone_validations = r"\d{9}"
 dni_validations = r"^\d{8}[A-Za-z]$"
 email_validations = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
 
 def load_users():
+    """Función para cargar los usuarios"""
     return UserRepository.load_data()
 
 
 def validate_regex(value, pattern):
+    """Función para validar que una cadena cumpla la expresión regular"""
     valid = False
     if not re.match(pattern, value):
         while not valid:
@@ -21,6 +25,7 @@ def validate_regex(value, pattern):
     return value
 
 def validateIsANumber(value):
+    """Función para obligar al usuario a introducir un número entero"""
     try:
         value = int(value)
     except ValueError:
@@ -34,6 +39,8 @@ def validateIsANumber(value):
     return value
 
 def add_user():
+    """Función para añadir un usuario"""
+
     name = input("Ingrese el nombre del usuario: ")
     surname = input("Ingrese el apellido del usuario: ")
     dni = validate_regex(input("Ingrese el DNI del usuario: "), dni_validations)
@@ -56,6 +63,8 @@ def add_user():
     return UserRepository.add_user(u)
 
 def edit_user():
+
+    """Función para editar un usuario"""
 
     users = load_users()
 
@@ -92,6 +101,8 @@ def edit_user():
     return True
 
 def delete_user(user_id):
+
+    """Función para eliminar a un usuario"""
 
     users = load_users()
     users = list(filter(lambda u: u.id_user != user_id, users))

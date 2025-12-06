@@ -2,12 +2,14 @@ import csv
 from classes import Book
 
 class BookRepository:
+    """Clase que controla el acceso a la información guardada en el fichero"""
 
     FILE_PATH = "data/biblioLibros.csv"
     FIELDS = ['id_book', 'title', 'author', 'year', 'page_num', 'gender', 'editorial', 'state', 'available']
 
     @classmethod
     def load_data(cls):
+        """Método que carga todos los libros"""
         data = []
 
         with open(cls.FILE_PATH, "rt", encoding="utf-8") as file:
@@ -21,7 +23,7 @@ class BookRepository:
     
     @classmethod
     def find_a_book(cls, id):
-
+        """Método que carga los libros, busca uno en concreto y lo devuelve"""
         with open(cls.FILE_PATH, "rt", encoding="utf-8") as file:
             reader = csv.DictReader(file, delimiter=';')
 
@@ -44,7 +46,7 @@ class BookRepository:
 
     @classmethod
     def get_max_id(cls):
-
+        """Método que obtiene el ID más alto y lo devuelve"""
         with open(cls.FILE_PATH, "rt", encoding="utf-8") as file:
             reader = csv.DictReader(file, delimiter=';')
 
@@ -57,6 +59,7 @@ class BookRepository:
 
     @classmethod
     def add_book(cls, b):
+        """Método que recibe un libro y lo añade al final del fichero"""
         with open(cls.FILE_PATH, "a", encoding="utf-8", newline='\n') as file:
             writer = csv.writer(file, delimiter=';')
             writer.writerow([
@@ -75,6 +78,7 @@ class BookRepository:
 
     @classmethod
     def rewrite(cls, data):
+        """Método que recibe una lista de libros y la sobreescribe al contenido del fichero"""
         with open(cls.FILE_PATH, "w", encoding="utf-8", newline="\n") as file:
             writer = csv.writer(file, delimiter=';')
             writer.writerow(cls.FIELDS)
@@ -83,6 +87,7 @@ class BookRepository:
     
     @classmethod
     def load_free_books(cls):
+        """Método que carga todos los libros y devuelve los que están disponibles"""
         data = []
 
         with open(cls.FILE_PATH, "rt", encoding="utf-8") as file:

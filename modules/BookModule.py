@@ -1,6 +1,7 @@
 from logic import load_books, list_books, add_book, getMaxId, remove_book, modify_book
 
 def book_menu():
+    """Menú de la parte de gestión de libros"""
     print("================================")
     print("Ha seleccionado la opción de 'Gestión de Libros'")
     print("¿Qué desea hacer?")
@@ -12,6 +13,7 @@ def book_menu():
     print("5. Volver atrás")
 
 def manage_books():
+    """Función para gestionar las operaciones relacionadas con los libros"""
 
     back = False
     while not back:
@@ -26,6 +28,7 @@ def manage_books():
                     print("Libro añadido correctamente.")
 
             case "2":
+                # Esto debería haberlo hecho en una función, pero se me olvidó
                 book_id = ""
                 while not isinstance(book_id, int):
                     try:
@@ -36,9 +39,18 @@ def manage_books():
                 remove_book(book_id)
                     
             case "3":
-                book_id = input("Ingrese el ID del libro a modificar: ")
-                modified_book = modify_book(int(book_id))
-                print(modified_book)
+                # Pedimos el id del libro a modificar
+                book_id = ""
+                while not isinstance(book_id, int):
+                    try:
+                        book_id = int(input("Ingrese el ID del libro a modificar: "))
+                        
+                    except ValueError:
+                       continue
+                modified_book = modify_book(book_id)
+
+                if modified_book:
+                    print(modified_book)
                 
             case "4":
                 list_books()

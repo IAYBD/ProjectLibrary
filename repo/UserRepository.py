@@ -3,12 +3,14 @@ from classes import User
 
 class UserRepository:
 
+    """Clase que controla el acceso a la información guardada en el fichero"""
+
     FILE_PATH = "data/biblioUsuarios.csv"
     FIELDS = ["id_user","name","surname","dni","email","phone","address","age"]
 
-    """Carga de datos del fichero CSV, conversión a objetos User y retorno de lista de usuarios"""
     @classmethod
     def load_data(cls):
+        """Carga de datos del fichero CSV, conversión a objetos User y retorno de lista de usuarios"""
         data = []
 
         with open(cls.FILE_PATH, "rt", encoding="utf-8") as file:
@@ -23,7 +25,7 @@ class UserRepository:
     
     @classmethod
     def find_a_user(cls, id):
-
+        """Método que carga todos los usuarios y devuelve el usuario con el ID dado si lo encuentra o None en caso contrario"""
         with open(cls.FILE_PATH, "rt", encoding="utf-8") as file:
             reader = csv.DictReader(file, delimiter=';')
 
@@ -46,6 +48,7 @@ class UserRepository:
 
     @classmethod
     def get_max_id(cls):
+        """Método que obtiene el ID más alto y lo devuelve"""
         with open(cls.FILE_PATH, "rt", encoding="utf-8") as file:
             reader = csv.DictReader(file, delimiter=';')
             data = []
@@ -69,6 +72,7 @@ class UserRepository:
 
     @classmethod
     def add_user(cls, user):
+        """Método que recibe un usuario y lo añade al final del fichero"""
         try:
             with open(cls.FILE_PATH, "a", encoding="utf-8", newline="\n") as file:
                 writer = csv.writer(file, delimiter=';')
@@ -81,7 +85,7 @@ class UserRepository:
 
     @classmethod
     def rewrite(cls, data):
-
+        """Método que recibe una lista de usuarios y la sobreescribe al contenido del fichero"""
         try:
 
             with open(cls.FILE_PATH, "w", encoding="utf-8", newline="") as file:

@@ -1,6 +1,7 @@
 from logic.userLogic import *
 
 def user_menu():
+    """Menú de gestión de usuarios"""
     print("================================")
     print("Ha seleccionado la opción de 'Gestión de Usuarios'")
     print("¿Qué desea hacer?")
@@ -13,7 +14,7 @@ def user_menu():
 
 
 def manage_users():
-
+    """Función que controla la parte de gestión de usuarios"""
     back = False
     while not back:
         user_menu()

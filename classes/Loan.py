@@ -1,5 +1,6 @@
 from datetime import date
 class Loan:
+    """Clase Préstamo"""
 
     def __init__(self, loan_id, user_id, book_id, start_date, end_date, returning_date):
         self.loan_id = int(loan_id)
@@ -20,6 +21,7 @@ class Loan:
 
     @classmethod
     def to_dict(cls, loan):
+        """Método para convertir un objeto en diccionario"""
         return {
             'loan_id': loan.loan_id,
             'user_id': loan.user_id,
@@ -31,4 +33,5 @@ class Loan:
 
     @classmethod
     def from_dict(cls, data_dict):
+        """Método para transformar un diccionario en un objeto"""
         return cls(**data_dict)

@@ -1,5 +1,5 @@
 class Book:
-
+    """Clase Libro, representa a un libro en la biblioteca"""
     def __init__(self, id_book, title, author, year, page_num, gender, editorial, state, available):
 
         self.id_book = int(id_book)
@@ -23,6 +23,7 @@ class Book:
 
     @classmethod
     def to_dict(cls, book):
+        """Método para convertir un objeto en diccionario"""
         return {
             'id_book': book.id_book,
             'title': book.title ,
@@ -37,4 +38,5 @@ class Book:
 
     @classmethod
     def from_dict(cls, data_dict):
+       """Método para transformar un diccionario en un objeto"""
        return cls(**data_dict) 
